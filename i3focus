@@ -28,7 +28,7 @@ if __name__ == '__main__':
     # change visuals
     tree = i3.get_tree()
     for window in tree.leaves():
-        window.command('border pixel 10')
+        window.command('border pixel 20')
 
 
     # listen to keypresses
@@ -36,6 +36,8 @@ if __name__ == '__main__':
         if args.debug:
             print('{0} pressed'.format(
                 key))
+        if key == Key.space:
+            i3.command('focus mode_toggle')
         try:
             if key.char == 'j':
                 i3.command('focus left')
@@ -51,7 +53,7 @@ if __name__ == '__main__':
         if args.debug:
             print('{0} release'.format(
                 key))
-        if key in [Key.esc, Key.tab]:
+        if key in [Key.esc, Key.tab, Key.enter]:
             # Stop listener
             return False
 
