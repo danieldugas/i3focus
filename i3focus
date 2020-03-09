@@ -1,0 +1,69 @@
+#!/usr/bin/env python
+import os
+import sys
+import time
+import json
+import fcntl
+import signal
+import argparse
+import traceback
+from pynput.keyboard import Key, Listener
+try:
+    import tkinter
+except ImportError:
+    import Tkinter as tkinter
+import i3ipc
+
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='i3focus')
+    parser.add_argument('--debug',
+                        action='store_true',
+                        help='write debug information to log')
+    args = parser.parse_args()
+
+    i3 = i3ipc.Connection()
+
+    # change visuals
+    tree = i3.get_tree()
+    for window in tree.leaves():
+        window.command('border pixel 10')
+
+
+    # listen to keypresses
+    def on_press(key):
+        if args.debug:
+            print('{0} pressed'.format(
+                key))
+        try:
+            if key.char == 'j':
+                i3.command('focus left')
+            if key.char == 'l':
+                i3.command('focus right')
+            if key.char == 'i':
+                i3.command('focus up')
+            if key.char == ',':
+                i3.command('focus down')
+        except AttributeError:
+            pass
+    def on_release(key):
+        if args.debug:
+            print('{0} release'.format(
+                key))
+        if key in [Key.esc, Key.tab]:
+            # Stop listener
+            return False
+
+    try:
+        # Collect events until released
+        with Listener(on_press=on_press, on_release=on_release, suppress=True) as listener:
+            listener.join()
+    except KeyboardInterrupt:
+        pass
+    except:
+        traceback.print_exc()
+
+    tree = i3.get_tree()
+    for window in tree.leaves():
+        window.command('border pixel 2')
