@@ -10,7 +10,7 @@ An intuitive alt-tab focus switching script.
 
 ```
 sudo apt install python-pip
-pip install --user i3ipc pynput
+pip install --user i3ipc==1.7.1 pynput==1.6.8
 git clone git@github.com:danieldugas/i3focus.git ~/Code/i3focus
 ln -s ~/Code/i3focus/i3focus ~/.i3/i3focus
 ```
