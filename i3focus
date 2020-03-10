@@ -38,6 +38,14 @@ if __name__ == '__main__':
                 key))
         if key == Key.space:
             i3.command('focus mode_toggle')
+        if key == Key.left:
+            i3.command('focus left')
+        if key == Key.right:
+            i3.command('focus right')
+        if key == Key.up:
+            i3.command('focus up')
+        if key == Key.down:
+            i3.command('focus down')
         try:
             if key.char == 'j':
                 i3.command('focus left')
