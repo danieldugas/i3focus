@@ -26,9 +26,7 @@ if __name__ == '__main__':
     i3 = i3ipc.Connection()
 
     # change visuals
-    tree = i3.get_tree()
-    for window in tree.leaves():
-        window.command('border pixel 20')
+    i3.command('[class=".*"] border pixel 20')
 
 
     # listen to keypresses
@@ -74,6 +72,5 @@ if __name__ == '__main__':
     except:
         traceback.print_exc()
 
-    tree = i3.get_tree()
-    for window in tree.leaves():
-        window.command('border pixel 2')
+    # reset style
+    i3.command('[class=".*"] border pixel 2')
